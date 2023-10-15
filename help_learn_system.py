@@ -30,14 +30,28 @@ def create_questions(list):
     for item in list:
         item_list = item.split("/&*/")
         while(len(item_list) == 5):
-            questions.append(Question(item_list[0], item_list[1], item_list[3], item_list[4]))
+            questions.append(Question(item_list[0].strip(' \n . ^'), item_list[1], item_list[3], item_list[4]))
             break
     return questions
 
+def add_to_base_questions(questions:list, dict_base, name_title):
+    '''обновляет информацию для базы данных в виде словаря с вопросами на основе полученного листа с объектами типа Questions'''
+    dict_base.setdefault(name_title, questions)
+    return dict_base
 
-HTML_parser = parser_file("HTML_CSS/HTML_CSS_Создание_сайтов.txt")
+dict_qustions = {}
 
-HTML_questions = create_questions(HTML_parser)
 
-for item in HTML_questions:
-    print(item)
+if __name__ == "__main__":
+
+    HTML_parser = parser_file("HTML_CSS/HTML_CSS_Создание_сайтов.txt")
+
+    HTML_questions = create_questions(HTML_parser)
+
+    dict_qustions = add_to_base_questions(HTML_questions, dict_qustions, "HTML_CSS")
+    print(dict_qustions)
+
+
+
+    for item in HTML_questions:
+        print(item)

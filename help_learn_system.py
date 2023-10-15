@@ -44,14 +44,21 @@ dict_qustions = {}
 
 if __name__ == "__main__":
 
-    HTML_parser = parser_file("HTML_CSS/HTML_CSS_Создание_сайтов.txt")
+    
 
-    HTML_questions = create_questions(HTML_parser)
+    list_name_files = ["JAVA+.txt", "Python.txt", "HTML_CSS.txt","Базы_данных.txt","Компьютерные_сети.txt","Linux.txt"]
+    for item in list_name_files:
+        item_parser = parser_file(f"Files_from_parse/{item}")
+        item_qustions = create_questions(item_parser)
+        dict_qustions = add_to_base_questions(item_qustions, dict_qustions, item)
 
-    dict_qustions = add_to_base_questions(HTML_questions, dict_qustions, "HTML_CSS")
-    print(dict_qustions)
+
+
+    
+    for key in dict_qustions:
+        print(key)
 
 
 
-    for item in HTML_questions:
-        print(item)
+
+    

@@ -40,13 +40,13 @@ def add_to_base_questions(questions:list, dict_base, name_title):
     return dict_base
 
 dict_qustions = {}
-
+list_name_files = ["JAVA+.txt", "Python.txt", "HTML_CSS.txt","Базы_данных.txt","Компьютерные_сети.txt","Linux.txt"]
 
 if __name__ == "__main__":
 
     
 
-    list_name_files = ["JAVA+.txt", "Python.txt", "HTML_CSS.txt","Базы_данных.txt","Компьютерные_сети.txt","Linux.txt"]
+    
     for item in list_name_files:
         item_parser = parser_file(f"Files_from_parse/{item}")
         item_qustions = create_questions(item_parser)

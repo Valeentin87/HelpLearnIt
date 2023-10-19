@@ -22,7 +22,7 @@ for i in range(1,4):
         else:
             picture_name = "./pictures/"+list_name_pictures[start]
             picture = PhotoImage(file=f"{picture_name}")
-            ch_btn = Checkbutton(text=list_button[start],compound="bottom")
+            ch_btn = Checkbutton(text=list_button[start],compound="bottom", width="40")
             
             ls_btn.append(ch_btn)
         

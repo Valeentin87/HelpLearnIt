@@ -34,29 +34,28 @@ def create_questions(list):
             break
     return questions
 
-def add_to_base_questions(questions:list, dict_base, name_title):
-    '''обновляет информацию для базы данных в виде словаря с вопросами на основе полученного листа с объектами типа Questions'''
-    dict_base.setdefault(name_title, questions)
-    return dict_base
+def add_to_base_questions(list_names_file):
+    '''возвращает список словарей, в которых ключами являются названия файлов а значениями список объектов класса questions'''
+    pars_file = []
+    questions_list = []
+    list_list_questions = []
+    dict_result = {}
+    dict_from_each_file = {}
+    for name_file in list_names_file:
+        pars_file = parser_file(f"Files_from_parse/{name_file}")
+        questions_list = create_questions(pars_file)
+        
+        list_list_questions.append(dict_from_each_file.setdefault(name_file, questions_list))
+    return list_list_questions
+
+
 
 dict_qustions = {}
 list_name_files = ["JAVA+.txt", "Python.txt", "HTML_CSS.txt","Базы_данных.txt","Компьютерные_сети.txt","Linux.txt"]
 
 if __name__ == "__main__":
-
-    
-
-    
-    for item in list_name_files:
-        item_parser = parser_file(f"Files_from_parse/{item}")
-        item_qustions = create_questions(item_parser)
-        dict_qustions = add_to_base_questions(item_qustions, dict_qustions, item)
-
-
-
-    
-    for key in dict_qustions:
-        print(key)
+    result = add_to_base_questions(list_name_files)
+    print(result)
 
 
 

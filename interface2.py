@@ -4,7 +4,7 @@ from tkinter import ttk
 
 root = Tk()
 root.title("Окно тестирования приложения")
-root.geometry("1600x700")
+root.geometry("1300x700")
 root.resizable(False,False)
 for c in range(6): root.columnconfigure(index=c, weight=1)
 for r in range(4): root.rowconfigure(index=r,weight=1)
@@ -19,23 +19,28 @@ header.grid(row=0, column=0, columnspan=6)
 
 
 list_name_pictures = ["java.png", "python3.png", "html.png","db.png","KS.png","linux.png"]
-count_column=0
-count_row=1
+
 baskets_ch_btns = []
 
 
+def create_buttons(list,dict):
+    count_column=0
+    count_row=1
+    ch_btn_list = []
+    list_from_checkbutton = []
+    for name_file in list:
+        newCnBtn = Checkbutton(text=name_file, bg="#9ACD32", padx=2, pady=2)
+        list_from_checkbutton = dict[name_file]
+        ch_btn_list.append(newCnBtn)
+        newCnBtn.grid(row=1, column=count_column)
+        ch_btn_list.append((newCnBtn,list_from_checkbutton))
+        count_column+=1
+        if(count_column==5): count_row+=1
+    return ch_btn_list
 
-for i in list_name_pictures:
-    newCnBtn = Checkbutton(text=list_name_pictures[count_column], bg="#9ACD32", padx=2, pady=2, compound="bottom")
-   
-    newCnBtn.grid(row=1, column=count_column)
-    baskets_ch_btns.append(newCnBtn)
-    count_column+=1
-    if(count_column==5): count_row+=1
-
-enabled = IntVar(value=0)
-for btn in baskets_ch_btns:
-    btn.config(variable=enabled)
+# enabled = IntVar(value=0)
+# for btn in baskets_ch_btns:
+#     btn.config(variable=enabled)
         
 pict1 = PhotoImage(file="./pictures/java.png")
 pict2= PhotoImage(file="./pictures/python3.png")       
@@ -44,12 +49,14 @@ pict4 = PhotoImage(file="./pictures/db.png")
 pict5 = PhotoImage(file="./pictures/KS.png")
 pict6 = PhotoImage(file="./pictures/linux.png")
 
-first_button = baskets_ch_btns[0]
-second_button = baskets_ch_btns[1]
-third_button = baskets_ch_btns[2]
-fourth_button = baskets_ch_btns[3]
-five_button = baskets_ch_btns[4]
-six_button = baskets_ch_btns[5]
+bcheckbuttons = create_buttons(hls.list_name_files)
+
+first_button = bcheckbuttons[0]
+second_button = bcheckbuttons[1]
+third_button = bcheckbuttons[2]
+fourth_button = bcheckbuttons[3]
+five_button = bcheckbuttons[4]
+six_button = bcheckbuttons[5]
 
 first_button.config(image=pict1)
 second_button.config(image=pict2)
@@ -61,12 +68,12 @@ six_button.config(image=pict6)
 choose_question_frame = Frame()
 lab_choose_question = Label(choose_question_frame,text="Выберите вопрос из списка", padx=2, pady=2)
 lab_choose_question.pack(fill=X, ipadx=15, ipady=3)
-lab_scrollbar = Label(choose_question_frame, text="Здесь будет список вопросов", width="30", height="30", bg="#F0E68C")
+lab_scrollbar = Label(choose_question_frame, text="Здесь будет список вопросов", width="30", height="25", bg="#F0E68C")
 lab_scrollbar.pack(fill=X, ipadx=4, ipady=4)
 view_answer_btn = Button(choose_question_frame,text="Показать ответ", padx=5, pady=5)
-view_answer_btn.pack(anchor="n")
-go_test_btn = Button(choose_question_frame, text="Пройти тест")
-go_test_btn.pack(anchor="s")
+view_answer_btn.pack(side="left")
+go_test_btn = Button(choose_question_frame, text="Пройти тест", padx=5, pady=5)
+go_test_btn.pack(side="left")
 choose_question_frame.grid(row=3, column=0, columnspan=3)
 
 

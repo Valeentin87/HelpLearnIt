@@ -35,7 +35,7 @@ def create_questions(list):
     return questions
 
 def add_to_base_questions(list_names_file):
-    '''возвращает список словарей, в которых ключами являются названия файлов а значениями список объектов класса questions'''
+    '''возвращает словарь, в котором ключами являются названия файлов а значениями список объектов класса questions'''
     pars_file = []
     questions_list = []
     list_list_questions = []
@@ -45,8 +45,8 @@ def add_to_base_questions(list_names_file):
         pars_file = parser_file(f"Files_from_parse/{name_file}")
         questions_list = create_questions(pars_file)
         
-        list_list_questions.append(dict_from_each_file.setdefault(name_file, questions_list))
-    return list_list_questions
+        dict_result.setdefault(name_file, questions_list)
+    return dict_result
 
 
 

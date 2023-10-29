@@ -7,7 +7,7 @@ class Question:
         self.answer = answer
     
     def __str__(self) -> str:
-        return f"Вопрос {self.number_question} Раздел: {self.title} Формулировка: {self.question}"
+        return f"{self.title} */* {self.question}"
 
 
 

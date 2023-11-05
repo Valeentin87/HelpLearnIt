@@ -45,12 +45,12 @@ def create_all_questions():
     return list_questions_from_buttons
 
 def view_question():
-    global text_answer
+    global lab_answer
     global list_questions_from_buttons
     index_active_element = list_quest_listbox.curselection()
     typle_to_list = index_active_element[0]
     answer_from_button = list_questions_from_buttons[typle_to_list]
-    text_answer.insert("1.0",answer_from_button.answer)
+    lab_answer.configure(text=answer_from_button.answer)
     print(index_active_element)
 
 
@@ -96,15 +96,9 @@ create_list_questions.place(x=240, y=677)
 
 lab_frame_answer = LabelFrame(lab_second_block, text="Ответ на вопрос:")
 lab_frame_answer.pack(side=LEFT, padx=50)
-text_answer = Text(lab_frame_answer, font=("Arial", 14), height=15, wrap="none")
-
-ans_scroll_x = Scrollbar(lab_frame_answer, orient=HORIZONTAL, command=text_answer.xview)
-ans_scroll_x.pack(side=BOTTOM, fill=X)
-text_answer["xscrollcommand"] = ans_scroll_x.set
-ans_scroll_y = Scrollbar(lab_frame_answer, orient="vertical", command=text_answer.yview)
-ans_scroll_y.pack(side=RIGHT, fill=Y)
-text_answer.pack(fill=BOTH, expand=1)
-text_answer["yscrollcommand"]=ans_scroll_y.set
+lab_answer = Label(lab_frame_answer, text="Здесь будет продемонстрирован ответ на вопроc", \
+                   font=("Arial", 14), wraplength=400)
+lab_answer.pack(fill=BOTH, expand=1)
 answer_button = Button(lab_frame_answer,text="Показать ответ", command=view_question)
 answer_button.pack()
 

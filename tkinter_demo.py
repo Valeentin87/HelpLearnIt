@@ -1,5 +1,6 @@
 from tkinter import *
 import help_learn_system as hls
+import tkinter.messagebox as box
 
 root = Tk()
 root.title("Демонтстрация")
@@ -53,7 +54,24 @@ def view_question():
     text_answer.insert("1.0",answer_from_button.answer)
     print(index_active_element)
 
+def click_add():
+    box.showinfo("Добавление вопроса", "Вам предстоит добавить вопрос")
 
+def window_exit():
+    #window.destroy()
+    pass
+
+
+def add_new_quest_wind():
+    window = Toplevel(root)
+    window.title("Добавление новых вопросов")
+    window.geometry("1000x800")
+    for r in range(8): window.rowconfigure(index=r, weight=1)
+    for c in range(3): window.columnconfigure(index=c, weight=1)
+    button_exit = Button(window, text="Закрыть", command=window.destroy)
+    button_exit.pack(side=BOTTOM, padx=6, pady=6)
+    window.mainloop()
+    
 
 dict_int_var = {}
 
@@ -116,6 +134,15 @@ lab_create_txt.pack(fill=X)
 
 buttons=create_buttons(list_name_pictures)
 
+main_menu = Menu()
+add_question_menu = Menu(tearoff=0)
+add_question_menu.add_command(label="Добавить", command=add_new_quest_wind)
+add_question_menu.add_separator()
+add_question_menu.add_command(label="Выход", command=exit)
+main_menu.add_cascade(label="Меню", menu=add_question_menu)
+
+root.config(menu=main_menu)
+
 dict_photo_image = {}
 for button in buttons:
     print(button.cget("text"))
@@ -125,5 +152,6 @@ for button in buttons:
         print("Yes!!!!")
         dict_photo_image[name_button] = PhotoImage(file=f"./pictures/{button_images[name_button]}")
         button.configure(image = dict_photo_image[name_button], compound=TOP)
+
 
 root.mainloop()

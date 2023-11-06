@@ -68,8 +68,17 @@ def add_new_quest_wind():
     window.geometry("1000x800")
     for r in range(8): window.rowconfigure(index=r, weight=1)
     for c in range(3): window.columnconfigure(index=c, weight=1)
+    frame_list_blocks = LabelFrame(window, text="Имеющиеся блоки")
+    var_blocks = StringVar(value=list_name_pictures)
+    listbox_blocks = Listbox(frame_list_blocks, listvariable=var_blocks)
+    scroll_blocks = Scrollbar(frame_list_blocks, orient="vertical", command=listbox_blocks.yview)
+    listbox_blocks["yscrollcommand"] = scroll_blocks.set
+    scroll_blocks.pack(side=RIGHT, fill=Y)
+
+    listbox_blocks.pack(fill=BOTH, expand=1)
+    frame_list_blocks.grid(row=0, column=0, rowspan=2, sticky=NSEW)
     button_exit = Button(window, text="Закрыть", command=window.destroy)
-    button_exit.pack(side=BOTTOM, padx=6, pady=6)
+    button_exit.grid(row=7, column=2)
     window.mainloop()
     
 

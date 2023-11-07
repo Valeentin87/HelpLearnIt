@@ -14,6 +14,11 @@ button_images = {"Базы_данных.txt":"db.png",
                  "Linux.txt":"linux.png",
                  "Python.txt":"python3.png"}
 
+dict_base = hls.add_to_base_questions(list_name_pictures)
+
+for key, value in dict_base.items():
+    l = value
+    print(len(l))
 
 def check_status_button():
     list_status_button = []
@@ -60,12 +65,44 @@ def click_add():
 def window_exit():
     #window.destroy()
     pass
+listbox_blocks = Listbox()
+var_name_block = StringVar(value="Выбран блок: ")
+var_numbers_question = StringVar(value="Здесь будет отображаться количество вопросов в выбранном блоке")
+lab_check_block = Label()
+var_blocks = StringVar()
+entry_name_block = Entry()
+lab_list_name_pictures = Label()
 
+def click_listbox_blocks(event):
+    select = listbox_blocks.curselection()
+    print(select)
+    s = select[0]
+    name_block = listbox_blocks.get(s)
+    var_name_block.set("Выбран блок: " + name_block)
+    nums = len(dict_base[name_block])
+    var_numbers_question.set(f"В выбранном блоке всего \n {nums} вопросов ")
+
+
+def add_new_block():
+    global list_name_pictures
+    global lab_list_name_pictures
+    global var_blocks
+    #new_list_names = list_name_pictures.copy()
+    list_name_pictures.append(entry_name_block.get())
+    #list_name_pictures = new_list_names
+    box.showinfo("Результат", f"блок {entry_name_block.get()} успешно добавлен")
+    listbox_blocks.insert(END, entry_name_block.get())
+    print(list_name_pictures)
+    var_blocks.set(list_name_pictures)
+    
+    
 
 def add_new_quest_wind():
     window = Toplevel(root)
     window.title("Добавление новых вопросов")
     window.geometry("1000x800")
+    global listbox_blocks
+    global entry_name_block
     for r in range(8): window.rowconfigure(index=r, weight=1)
     for c in range(3): window.columnconfigure(index=c, weight=1)
     frame_list_blocks = LabelFrame(window, text="Имеющиеся блоки")
@@ -74,11 +111,58 @@ def add_new_quest_wind():
     scroll_blocks = Scrollbar(frame_list_blocks, orient="vertical", command=listbox_blocks.yview)
     listbox_blocks["yscrollcommand"] = scroll_blocks.set
     scroll_blocks.pack(side=RIGHT, fill=Y)
-
+    listbox_blocks.bind("<<ListboxSelect>>", click_listbox_blocks)
     listbox_blocks.pack(fill=BOTH, expand=1)
-    frame_list_blocks.grid(row=0, column=0, rowspan=2, sticky=NSEW)
+    frame_list_blocks.grid(row=0, column=0, sticky=NSEW)
+
+    frame_checkblock_info = Frame(window)
+    global var_name_block
+    global var_numbers_question
+    lab_check_block = Label(frame_checkblock_info, textvariable=var_name_block)
+    lab_check_block.pack(fill=X)
+    lab_number_questions = Label(frame_checkblock_info, textvariable=var_numbers_question, padx=5, pady=5)
+    lab_number_questions.pack()
+    frame_checkblock_info.grid(row=0, column=1, sticky=NSEW)
+
+    frame_name_part_of_block = Frame(window, bd=2, relief="raised")
+    lab_name_part_of_block = Label(frame_name_part_of_block, text="Введите название подраздела")
+    entry_name_part = Entry(frame_name_part_of_block, width=40)
+    lab_name_part_of_block.pack()
+    entry_name_part.pack()
+    frame_name_part_of_block.grid(row=2, column=0, sticky=NSEW)
+
+    frame_new_question = Frame(window, bd=2, relief="raised")
+    lab_new_question = Label(frame_new_question, text="Введите название  вопроса")
+    entry_new_question = Entry(frame_new_question, width=80)
+    lab_new_question.pack()
+    entry_new_question.pack()
+    frame_new_question.grid(row=2, column=1, columnspan=2, sticky=NSEW)
+
+    frame_add_new_block = LabelFrame(window, text="Добавление нового блока вопросов")
+    frame_add_new_block.grid(row=0, column=2, sticky=NSEW)
+    lab_entry_name_block = Label(frame_add_new_block, text="Введите название блока", padx=5, pady=5)
+    entry_name_block = Entry(frame_add_new_block)
+    butt_new_block = Button(frame_add_new_block, text="Добавить блок", padx=5, pady=5, command=add_new_block)
+    lab_entry_name_block.pack()
+    entry_name_block.pack()
+    butt_new_block.pack()
+
+    
+    lab_add_new_question = Label(window, text="Добавление нового вопроса в блок", font=("Arial", 16, "bold"), \
+                                  fg="red", bd=3, relief="raise")
+    lab_add_new_question.grid(row=1, column=0, columnspan=3)
+
+    lab_enter_new_question = LabelFrame(window, text="Наберите в текстовое поле ответ на добавляемый вопрос")
+    text_new_question = Text(lab_enter_new_question)
+    text_new_question.pack()
+    lab_enter_new_question.grid(row=3, rowspan=3, column=0, columnspan=3)
+
+    button_save_file = Button(window, text="Сохранить в файл")
+    button_add_to_base = Button(window, text="Добавить в БД")
+    button_save_file.grid(row=6, column=0,sticky=NSEW)
+    button_add_to_base.grid(row=6, column=1, sticky=NSEW)
     button_exit = Button(window, text="Закрыть", command=window.destroy)
-    button_exit.grid(row=7, column=2)
+    button_exit.grid(row=6, column=2, sticky=NSEW)
     window.mainloop()
     
 
@@ -162,5 +246,6 @@ for button in buttons:
         dict_photo_image[name_button] = PhotoImage(file=f"./pictures/{button_images[name_button]}")
         button.configure(image = dict_photo_image[name_button], compound=TOP)
 
+print('вне функции: ', list_name_pictures)
 
 root.mainloop()

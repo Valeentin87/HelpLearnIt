@@ -6,7 +6,13 @@ root = Tk()
 root.title("Демонтстрация")
 root.geometry("1500x800")
 
-list_name_pictures = ["JAVA+.txt", "Python.txt", "HTML_CSS.txt","Базы_данных.txt","Компьютерные_сети.txt","Linux.txt"]
+
+def make_list_name_blocks():
+    with open("name_blocks.txt", "r+") as file:
+        s=file.read()
+        name_blocks=s.split("|")
+    return name_blocks
+
 button_images = {"Базы_данных.txt":"db.png",
                  "Компьютерные_сети.txt":"KS.png",
                  "HTML_CSS.txt":"html.png",
@@ -14,7 +20,21 @@ button_images = {"Базы_данных.txt":"db.png",
                  "Linux.txt":"linux.png",
                  "Python.txt":"python3.png"}
 
-dict_base = hls.add_to_base_questions(list_name_pictures)
+list_name_blocks = make_list_name_blocks()
+
+#new_name = entry_name_block.get()
+
+def add_new_block_in_file():
+    new_name = entry_name_block.get()
+    list_name_blocks = make_list_name_blocks()
+    if new_name in list_name_blocks:
+        box.showerror("ошибка", "такой блок уже существует")
+    with open("name_blocks.txt", "r+") as file:
+        file.write(new_name + "|")
+
+
+
+dict_base = hls.add_to_base_questions(list_name_blocks)
 
 for key, value in dict_base.items():
     l = value
@@ -38,7 +58,8 @@ def create_all_questions():
     global list_quest_var
     global list_quest_listbox
     list_questions_from_buttons = []
-    dict_questions = hls.add_to_base_questions(list_name_pictures)
+
+    dict_questions = hls.add_to_base_questions(list_name_blocks)
     
     for key, value in dict_int_var.items():
         if value.get():
@@ -106,7 +127,7 @@ def add_new_quest_wind():
     for r in range(8): window.rowconfigure(index=r, weight=1)
     for c in range(3): window.columnconfigure(index=c, weight=1)
     frame_list_blocks = LabelFrame(window, text="Имеющиеся блоки")
-    var_blocks = StringVar(value=list_name_pictures)
+    var_blocks = StringVar(value=list_name_blocks)
     listbox_blocks = Listbox(frame_list_blocks, listvariable=var_blocks)
     scroll_blocks = Scrollbar(frame_list_blocks, orient="vertical", command=listbox_blocks.yview)
     listbox_blocks["yscrollcommand"] = scroll_blocks.set
@@ -142,7 +163,7 @@ def add_new_quest_wind():
     frame_add_new_block.grid(row=0, column=2, sticky=NSEW)
     lab_entry_name_block = Label(frame_add_new_block, text="Введите название блока", padx=5, pady=5)
     entry_name_block = Entry(frame_add_new_block)
-    butt_new_block = Button(frame_add_new_block, text="Добавить блок", padx=5, pady=5, command=add_new_block)
+    butt_new_block = Button(frame_add_new_block, text="Добавить блок", padx=5, pady=5, command=add_new_block_in_file)
     lab_entry_name_block.pack()
     entry_name_block.pack()
     butt_new_block.pack()
@@ -168,7 +189,7 @@ def add_new_quest_wind():
 
 dict_int_var = {}
 
-for name  in list_name_pictures:
+for name  in list_name_blocks:
     dict_int_var[name] = IntVar(value=0)
 
 
@@ -225,7 +246,7 @@ lab_create_question.pack(fill=X, pady=30)
 lab_create_txt = Label(lab_create_question,text="Поле для создания новых вопросов для блока")
 lab_create_txt.pack(fill=X)
 
-buttons=create_buttons(list_name_pictures)
+buttons=create_buttons(list_name_blocks)
 
 main_menu = Menu()
 add_question_menu = Menu(tearoff=0)
@@ -246,6 +267,6 @@ for button in buttons:
         dict_photo_image[name_button] = PhotoImage(file=f"./pictures/{button_images[name_button]}")
         button.configure(image = dict_photo_image[name_button], compound=TOP)
 
-print('вне функции: ', list_name_pictures)
+print('вне функции: ', list_name_blocks)
 
 root.mainloop()

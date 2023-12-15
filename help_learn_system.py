@@ -41,8 +41,8 @@ def add_to_base_questions(list_names_file):
     list_list_questions = []
     dict_result = {}
     dict_from_each_file = {}
-    for name_file in list_names_file:
-        pars_file = parser_file(f"Files_from_parse/{name_file}")
+    for name_file in list_names_file[:-1]:
+        pars_file = parser_file(f"Files_from_parse/{name_file.rstrip()}")
         questions_list = create_questions(pars_file)
         
         dict_result.setdefault(name_file, questions_list)
